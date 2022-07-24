@@ -32,6 +32,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', function () { return view('admin.index');  });
     Route::get('/reservation/new', function () { return view('admin.reservation.new');  });
     Route::post('/reservation/new', [App\Http\Controllers\Admin\ReservationController::class, 'new']);
+    Route::get('/reservation/list', function () { return view('admin.reservation.list');  });
+    Route::post('/reservation/list', [App\Http\Controllers\Admin\ReservationController::class, 'list']);
+    Route::post('/reservation/showQr', [App\Http\Controllers\Admin\ReservationController::class, 'showQr']);
+
 });
 
 require __DIR__.'/auth.php';

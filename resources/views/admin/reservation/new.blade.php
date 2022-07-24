@@ -43,8 +43,6 @@
                                         name="TableNumber" placeholder="Masa Numarası">
                                 </div>
                                 <div class="col-sm-6">
-                                    {{-- <input type="text" class="form-control form-control-user" id="CheckInDate" placeholder="Tarih"> --}}
-
                                     <input class="form-control form-control-user" id="CheckInDate" type="text"
                                         name="CheckInDate" placeholder="Tarih" />
                                 </div>
@@ -56,7 +54,6 @@
                                     </textarea>
                                 </div>
                             </div>
-                            {{-- {!! QrCode::generate('Make me into a QrCode!'); !!} --}}
                             <a href="#" class="btn btn-primary btn-user btn-block makeReservation">
                                 Rezervasyonu Oluştur
                             </a>

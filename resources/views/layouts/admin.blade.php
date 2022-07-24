@@ -67,7 +67,7 @@
 
             <!-- Nav Item - Rezervasyonlar -->
             <li class="nav-item">
-                <a class="nav-link" href="/admin/Reservations">
+                <a class="nav-link" href="/admin/reservation/list">
                     <i class="fas fa-calendar"></i>
                     <span>Rezervasyonlar</span></a>
             </li>
