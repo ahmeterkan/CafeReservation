@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () { return view('welcome');  });
 });
 
+Route::get('/showQr/{id}', [App\Http\Controllers\ShowQrController::class, 'show']);
+
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', function () { return view('admin.index');  });
