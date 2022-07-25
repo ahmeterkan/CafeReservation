@@ -35,6 +35,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/reservation/list', function () { return view('admin.reservation.list');  });
     Route::post('/reservation/list', [App\Http\Controllers\Admin\ReservationController::class, 'list']);
     Route::post('/reservation/showQr', [App\Http\Controllers\Admin\ReservationController::class, 'showQr']);
+    Route::post('/reservation/get', [App\Http\Controllers\Admin\ReservationController::class, 'get']);
+    Route::post('/reservation/edit', [App\Http\Controllers\Admin\ReservationController::class, 'edit']);
+    Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
+    Route::get('/settings', function () { return view('admin.settings');  });
+
 
 });
 

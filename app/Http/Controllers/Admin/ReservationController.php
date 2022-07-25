@@ -46,8 +46,8 @@ class ReservationController extends Controller
             $filter .= "TableNumber ='{$request->TableNumber}'";
         }
         $filter = rtrim($filter, " and ");
-        $reservastion = DB::select('select * from reservations where' . $filter);
-        return view('admin.reservation.list', ['reservastion' => $reservastion]);
+        $reservation = DB::select('select * from reservations where' . $filter);
+        return view('admin.reservation.list', ['reservastion' => $reservation]);
     }
     public function showQr(Request $request)
     {
@@ -56,6 +56,26 @@ class ReservationController extends Controller
             'status' => 2,
             'html' => $html,
             'response' => "Qr Oluşturuldu!"
+        ], 200);
+    }
+    public function get(Request $request)
+    {
+        $reservation = Reservation::where("id", $request->id)->first();
+        $reservation->CheckInDate = Carbon::createFromFormat("Y-m-d", $reservation->CheckInDate)->format("d/m/Y");
+        return response()->json([
+            'status' => 2,
+            'reservation' => $reservation,
+            'response' => "Rezervasyon Getirildi!"
+        ], 200);
+    }
+    public function edit(Request $request)
+    {
+        unset($request['_token']);
+        $request['CheckInDate'] = Carbon::createFromFormat("d/m/Y", $request['CheckInDate'])->format("Y-m-d");
+        Reservation::where("id", $request->id)->update($request->all());
+        return response()->json([
+            'status' => 2,
+            'response' => "Rezervasyon Güncellendi!"
         ], 200);
     }
 }

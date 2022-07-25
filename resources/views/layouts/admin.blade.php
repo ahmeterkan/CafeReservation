@@ -74,6 +74,26 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+            <!-- Heading -->
+            <div class="sidebar-heading">
+
+            </div>
+
+            <!-- Nav Item - Yeni Rezervasyon -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/users">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span></a>
+            </li>
+
+            <!-- Nav Item - Rezervasyonlar -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Ayarlar</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

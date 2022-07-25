@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @section('title')
-    Rezervasyon Listeleme
+    Ayarlar
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('header')
-    Rezervasyon Listeleme
+    Ayarlar
 @endsection
 @section('content')
     <div class="card o-hidden border-0 shadow-lg">

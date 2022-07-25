@@ -1,75 +1,37 @@
 @extends('layouts.admin')
 @section('title')
-    Rezervasyon Listeleme
+    Kullanıcılar
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('header')
-    Rezervasyon Listeleme
+    Kullanıcılar
 @endsection
 @section('content')
     <div class="card o-hidden border-0 shadow-lg">
         <div class="card-body p-0">
-            <div class="p-5">
-                <form class="user reservation" method="post">
-                    @csrf
-                    <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0">
-                            <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName"
-                                placeholder="Ad">
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control form-control-user" id="LastName" name="LastName"
-                                placeholder="Soyad">
-                        </div>
-                        <div class="col-sm-3 mb-3">
-                            <input class="form-control form-control-user" id="CheckInDate" type="text" name="CheckInDate"
-                                placeholder="Tarih" />
-                        </div>
-                        <div class="col-sm-2 mb-3 mb-sm-0">
-                            <input type="text" class="form-control form-control-user" id="TableNumber" name="TableNumber"
-                                placeholder="Masa Numarası">
-                        </div>
-                        <div class="col-sm-1">
-                            <button class="btn btn-primary btn-user btn-block " type="submit">
-                                Ara
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            @if (isset($reservastion))
-                <div class="table-responsive p-5">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Ad</th>
-                                <th>Soyad</th>
-                                <th>Masa Numarası</th>
-                                <th>Tutar</th>
-                                <th>Kişi Sayısı</th>
-                                <th>Rezervasyon Tarihi</th>
-                                <th>Rezervasyon Notu</th>
-                                <th>İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($reservastion as $res)
+            <div class="table-responsive p-5">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>E-mail</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (isset($users))
+                            @foreach ($users as $res)
                                 <tr>
-                                    <td>{{ $res->FirstName }}</td>
-                                    <td>{{ $res->LastName }}</td>
-                                    <td>{{ $res->TableNumber }}</td>
-                                    <td>{{ $res->Amount }}</td>
-                                    <td>{{ $res->Pax }}</td>
-                                    <td>{{ $res->CheckInDate }}</td>
-                                    <td>{{ $res->ReservationNote }}</td>
+                                    <td>{{ $res->name }}</td>
+                                    <td>{{ $res->email }}</td>
                                     <td>
                                         <div class="dropdown mb-4">
                                             <button class="btn btn-primary dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false">
-                                                Dropdown
+                                                İşlemler
                                             </button>
                                             <div class="dropdown-menu animated--fade-in"
                                                 aria-labelledby="dropdownMenuButton">
@@ -77,18 +39,23 @@
                                                     data-id="{{ $res->id }}">
                                                     Düzenle </a>
                                                 <a class="dropdown-item showqr" href="#"
-                                                    data-id="{{ $res->id }}"> Qr
-                                                    Kod
-                                                    Göster </a>
+                                                    data-id="{{ $res->id }}"> Sil </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
+                            @else
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        @endif
+
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>
@@ -126,22 +93,22 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="FirstName"
-                                    name="FirstName" placeholder="Ad">
+                                <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName"
+                                    placeholder="Ad">
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" id="LastName"
-                                    name="LastName" placeholder="Soyad">
+                                <input type="text" class="form-control form-control-user" id="LastName" name="LastName"
+                                    placeholder="Soyad">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="Amount"
-                                    name="Amount" placeholder="Tutar">
+                                <input type="text" class="form-control form-control-user" id="Amount" name="Amount"
+                                    placeholder="Tutar">
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" id="Pax"
-                                    name="Pax" placeholder="Kişi Sayısı">
+                                <input type="text" class="form-control form-control-user" id="Pax" name="Pax"
+                                    placeholder="Kişi Sayısı">
                             </div>
                         </div>
                         <div class="form-group row">
