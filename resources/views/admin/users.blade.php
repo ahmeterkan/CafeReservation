@@ -11,7 +11,16 @@
 @section('content')
     <div class="card o-hidden border-0 shadow-lg">
         <div class="card-body p-0">
+
             <div class="table-responsive p-5">
+                <div class="p-1" style="float: right;">
+                    <a href="#" class="btn btn-success btn-icon-split"  data-toggle="modal" data-target="#addModal">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Kullanıcı Ekle</span>
+                    </a>
+                </div>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -38,14 +47,14 @@
                                                 <a class="dropdown-item editUser" href="#"
                                                     data-id="{{ $res->id }}">
                                                     Düzenle </a>
-                                                <a class="dropdown-item showqr" href="#"
+                                                <a class="dropdown-item deleteUser" href="#"
                                                     data-id="{{ $res->id }}"> Sil </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-                            @else
+                        @else
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -59,11 +68,53 @@
 
         </div>
     </div>
+
+    {{-- kullanıcı ekleme modal --}}
+    <div class="modal" tabindex="-1" role="dialog" id="addModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yeni Kullanıcı Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body qr" style="text-align: center">
+                    <form class="user userAdd">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="name" name="name"
+                                    placeholder="Ad Soyad" autocomplete="off">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="email" name="email"
+                                    placeholder="E-mail" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <input type="password" class="form-control form-control-user" id="password" name="password"
+                                    placeholder="Şifre" autocomplete="off">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary saveAdded">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- kullanıcı ekleme modal --}}
+
+    {{-- kullanıcı düzenleme modal --}}
     <div class="modal" tabindex="-1" role="dialog" id="editModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Rezervasyon Düzenle</h5>
+                    <h5 class="modal-title">Kullanıcı Bilgilerini Düzenle</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -83,7 +134,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3 mb-sm-0">
-                                <input type="password" class="form-control form-control-user" id="Amount" name="password"
+                                <input type="password" class="form-control form-control-user" id="password" name="password"
                                     placeholder="Şifre" autocomplete="off">
                             </div>
                         </div>
@@ -97,11 +148,12 @@
             </div>
         </div>
     </div>
+    {{-- kullanıcı düzenleme modal --}}
+
 @endsection
 
 @section('script')
-<script>
-
+    <script>
         // Düzenlenecek user ı getirme start
         $('body').on('click', '.editUser', function() {
             var formData = {};
@@ -113,8 +165,9 @@
                 success: function(data) {
                     if (data.status) {
                         $('#editModal').modal('show');
+                        $('#editModal input[name="id"]').val(data.user.id);
                         $('#editModal input[name="name"]').val(data.user.name);
-                        $('#editModal input[name="email"]').val(data.reservation.email);
+                        $('#editModal input[name="email"]').val(data.user.email);
                     } else {
                         console.log(data);
                     }
@@ -128,17 +181,13 @@
         $('body').on('click', '.saveEdited', function() {
             event.preventDefault();
 
-            var formData = $('.reservationEdit').find('input, textarea, select').serialize();
-
+            var formData = $('.userEdit').find('input, textarea, select').serialize();
             $.ajax({
-                url: '/admin/reservation/edit',
+                url: '/admin/user/edit',
                 type: 'POST',
                 data: formData,
                 success: function(data) {
                     if (data.status) {
-                        // $('#qrModal').modal('show');
-                        // $('.qr').html(data.html);
-                        // console.log(data.html);
                         window.location.reload();
                     } else {
                         console.log(data);
@@ -150,24 +199,46 @@
         });
         // düzenlemleri kaydet işlemi end
 
-        //qr kod yazdırma start
-        $('body').on('click', '.printQr', function() {
-            $('.qr').printThis({
-                debug: false,
-                importCSS: true,
-                importStyle: true,
-                printContainer: true,
-                printDelay: 333,
-                header: null,
-                formValues: true
-            });
-        });
-        //qr kod yazdırma start
+        // Yeni Kullanıcı kaydet start
+        $('body').on('click', '.saveAdded', function() {
+            event.preventDefault();
 
-        //modal kapatıldığında sayfayı yenileme start
-        $('#qrModal').on('hidden.bs.modal', function() {
-            window.location.reload();
+            var formData = $('.userAdd').find('input, textarea, select').serialize();
+            $.ajax({
+                url: '/admin/user/add',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        window.location.reload();
+                    } else {
+                        console.log(data);
+                        // toastr.warning(lang['voucher_not_found']);
+                    }
+                }
+            });
+
         });
-        //modal kapatıldığında sayfayı yenileme start
+        // Yeni Kullanıcı kaydet end
+
+         // Düzenlenecek user ı getirme start
+         $('body').on('click', '.deleteUser', function() {
+            var formData = {};
+            formData['id'] = $(this).data("id");
+            $.ajax({
+                url: '/admin/user/delete',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        window.location.reload();
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+
+        });
+        // Düzenlenecek user ı getirme end
     </script>
 @endsection

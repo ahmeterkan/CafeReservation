@@ -39,6 +39,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/reservation/edit', [App\Http\Controllers\Admin\ReservationController::class, 'edit']);
     Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'index']);
     Route::post('/user/get', [App\Http\Controllers\Admin\UsersController::class, 'get']);
+    Route::post('/user/delete', [App\Http\Controllers\Admin\UsersController::class, 'delete']);
+    Route::post('/user/edit', [App\Http\Controllers\Admin\UsersController::class, 'edit']);
+    Route::post('/user/add', [App\Http\Controllers\Admin\UsersController::class, 'add']);
     Route::get('/settings', function () { return view('admin.settings');  });
 
 
