@@ -14,18 +14,58 @@
     </title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{url('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{ url('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ url('css/toastr.min.css') }}" rel="stylesheet">
+    <style>
+        .loading-cover {
+            position: absolute;
+            left: 0px;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .loader {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            font-size: 15pt;
+        }
+
+        .loading-page-cover {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .page-loader {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            font-size: 60pt;
+        }
+
+    </style>
     @yield('style')
 </head>
 
 <body id="page-top">
-
+    <div class="loading-page-cover">
+        <i class="page-loader fa fa-spinner fa-spin fa-fw"></i>
+    </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -267,16 +307,17 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="{{url('img/undraw_profile.svg')}}">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <img class="img-profile rounded-circle" src="{{ url('img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a>
+                                </a> --}}
                                 {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
@@ -285,9 +326,8 @@
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
                                 </a> --}}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal"
-                                    data-target="#logoutModal">
+                                {{-- <div class="dropdown-divider"></div> --}}
+                                <a class="dropdown-item" href="/logout" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -307,7 +347,7 @@
                         <h1 class="h3 mb-0 text-gray-800">@yield('header')</h1>
                     </div>
 
-                        @yield('content')
+                    @yield('content')
 
                 </div>
                 <!-- /.container-fluid -->
@@ -358,21 +398,30 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{url('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{url('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ url('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{url('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{ url('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{url('js/sb-admin-2.min.js')}}"></script>
+    <script src="{{ url('js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ url('js/toastr.min.js') }}"></script>
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        </script>
+
+        function LoadingScreen(durum) {
+            if (durum) {
+                $('.loading-page-cover').fadeIn(400);
+            } else {
+                $('.loading-page-cover').fadeOut(400);
+            }
+        }
+    </script>
     @yield('script')
 
 </body>

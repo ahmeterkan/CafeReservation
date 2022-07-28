@@ -49,6 +49,12 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="email"
+                                        name="email" placeholder="E-mail">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
                                     <label for="ReservationNote">Rezervasyon Notu:</label>
                                     <textarea type="textarea" class="form-control " id="ReservationNote" name="ReservationNote" rows="5">
                                     </textarea>
@@ -77,7 +83,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary printQr">Yazdır</button>
-                    <button type="button" class="btn btn-info sendMail">E-mail Gönder</button>
+                    <button type="button" class="btn btn-info sendMail" data-id="">E-mail Gönder</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
                 </div>
             </div>
@@ -141,7 +147,7 @@
         // rezervasyon post işlemi start
         $('body').on('click', '.makeReservation', function() {
             event.preventDefault();
-
+            LoadingScreen(1);
             var formData = $('.reservation').find('input, textarea, select').serialize();
 
             $.ajax({
@@ -152,10 +158,11 @@
                     if (data.status) {
                         $('#qrModal').modal('show');
                         $('.qr').html(data.html);
-                        console.log(data.html);
+                        $('.sendMail').attr("data-id", data.id);
+                        LoadingScreen(0);
+                        toastr.success(data.response);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
                     }
                 }
             });
@@ -176,6 +183,31 @@
             });
         });
         //qr kod yazdırma start
+
+
+        // mail gönderme start
+        $('body').on('click', '.sendMail', function() {
+            var formData = {};
+            formData['id'] = $(this).data("id");
+            LoadingScreen(1);
+            $.ajax({
+                url: '/admin/reservation/sendMail',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        LoadingScreen(0);
+                        toastr.success(data.response);
+                    } else {
+                        LoadingScreen(0);
+                        toastr.warning(data.response);
+                        console.log(data);
+                    }
+                }
+            });
+
+        });
+        // mail gönderme end
 
         //modal kapatıldığında sayfayı yenileme start
         $('#qrModal').on('hidden.bs.modal', function() {

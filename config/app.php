@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\MailConfigServiceProvider;
+use App\Providers\MailServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -195,6 +197,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        MailConfigServiceProvider::class,
     ],
 
     /*

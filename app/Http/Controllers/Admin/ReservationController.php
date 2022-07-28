@@ -19,6 +19,7 @@ class ReservationController extends Controller
         $res->LastName = $request->LastName;
         $res->TableNumber = $request->TableNumber;
         $res->ReservationNote = $request->ReservationNote;
+        $res->email = $request->email;
         $res->Amount = $request->Amount;
         $res->Pax = $request->Pax;
         $res->CheckInDate = Carbon::createFromFormat("d/m/Y", $request->CheckInDate)->format("Y-m-d");
@@ -27,6 +28,7 @@ class ReservationController extends Controller
         return response()->json([
             'status' => 2,
             'html' => $html,
+            'id' => $res->id,
             'response' => "Rezervasyon Oluşturuldu!"
         ], 200);
     }
@@ -55,6 +57,7 @@ class ReservationController extends Controller
         return response()->json([
             'status' => 2,
             'html' => $html,
+            'id' => $request->id,
             'response' => "Qr Oluşturuldu!"
         ], 200);
     }

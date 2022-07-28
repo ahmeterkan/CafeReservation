@@ -14,7 +14,7 @@
 
             <div class="table-responsive p-5">
                 <div class="p-1" style="float: right;">
-                    <a href="#" class="btn btn-success btn-icon-split"  data-toggle="modal" data-target="#addModal">
+                    <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#addModal">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -124,18 +124,18 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="name" name="name"
-                                    placeholder="Ad Soyad" autocomplete="off">
+                                <input type="text" class="form-control form-control-user" id="name"
+                                    name="name" placeholder="Ad Soyad" autocomplete="off">
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" id="email" name="email"
-                                    placeholder="E-mail" autocomplete="off">
+                                <input type="text" class="form-control form-control-user" id="email"
+                                    name="email" placeholder="E-mail" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3 mb-sm-0">
-                                <input type="password" class="form-control form-control-user" id="password" name="password"
-                                    placeholder="Şifre" autocomplete="off">
+                                <input type="password" class="form-control form-control-user" id="password"
+                                    name="password" placeholder="Şifre" autocomplete="off">
                             </div>
                         </div>
                         <input type="hidden" name="id">
@@ -158,6 +158,7 @@
         $('body').on('click', '.editUser', function() {
             var formData = {};
             formData['id'] = $(this).data("id");
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/user/get',
                 type: 'POST',
@@ -168,8 +169,11 @@
                         $('#editModal input[name="id"]').val(data.user.id);
                         $('#editModal input[name="name"]').val(data.user.name);
                         $('#editModal input[name="email"]').val(data.user.email);
+                        toastr.success(data.response);
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
@@ -182,16 +186,19 @@
             event.preventDefault();
 
             var formData = $('.userEdit').find('input, textarea, select').serialize();
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/user/edit',
                 type: 'POST',
                 data: formData,
                 success: function(data) {
                     if (data.status) {
+                        toastr.success(data.response);
                         window.location.reload();
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
@@ -204,16 +211,19 @@
             event.preventDefault();
 
             var formData = $('.userAdd').find('input, textarea, select').serialize();
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/user/add',
                 type: 'POST',
                 data: formData,
                 success: function(data) {
                     if (data.status) {
+                        toastr.success(data.response);
                         window.location.reload();
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
@@ -221,19 +231,23 @@
         });
         // Yeni Kullanıcı kaydet end
 
-         // Düzenlenecek user ı getirme start
-         $('body').on('click', '.deleteUser', function() {
+        // Düzenlenecek user ı getirme start
+        $('body').on('click', '.deleteUser', function() {
             var formData = {};
             formData['id'] = $(this).data("id");
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/user/delete',
                 type: 'POST',
                 data: formData,
                 success: function(data) {
                     if (data.status) {
+                        toastr.success(data.response);
                         window.location.reload();
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });

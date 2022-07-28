@@ -15,15 +15,19 @@
                 <form class="user reservation" method="post">
                     @csrf
                     <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0">
+                        <div class="col-sm-2 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName"
                                 placeholder="Ad">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <input type="text" class="form-control form-control-user" id="LastName" name="LastName"
                                 placeholder="Soyad">
                         </div>
-                        <div class="col-sm-3 mb-3">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-user" id="email" name="email"
+                                placeholder="E-mail">
+                        </div>
+                        <div class="col-sm-2 mb-3">
                             <input class="form-control form-control-user" id="CheckInDate" type="text" name="CheckInDate"
                                 placeholder="Tarih" />
                         </div>
@@ -46,6 +50,7 @@
                             <tr>
                                 <th>Ad</th>
                                 <th>Soyad</th>
+                                <th>E-mail</th>
                                 <th>Masa Numarası</th>
                                 <th>Tutar</th>
                                 <th>Kişi Sayısı</th>
@@ -59,6 +64,7 @@
                                 <tr>
                                     <td>{{ $res->FirstName }}</td>
                                     <td>{{ $res->LastName }}</td>
+                                    <td>{{ $res->email }}</td>
                                     <td>{{ $res->TableNumber }}</td>
                                     <td>{{ $res->Amount }}</td>
                                     <td>{{ $res->Pax }}</td>
@@ -69,7 +75,7 @@
                                             <button class="btn btn-primary dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false">
-                                                Dropdown
+                                                İşlemler
                                             </button>
                                             <div class="dropdown-menu animated--fade-in"
                                                 aria-labelledby="dropdownMenuButton">
@@ -106,7 +112,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary printQr">Yazdır</button>
-                    <button type="button" class="btn btn-info sendMail">E-mail Gönder</button>
+                    <button type="button" class="btn btn-info sendMail" data-id="">E-mail Gönder</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
                 </div>
             </div>
@@ -126,22 +132,18 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="FirstName"
-                                    name="FirstName" placeholder="Ad">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" id="LastName"
-                                    name="LastName" placeholder="Soyad">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-user" id="Amount"
                                     name="Amount" placeholder="Tutar">
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-user" id="Pax"
                                     name="Pax" placeholder="Kişi Sayısı">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="email"
+                                    name="email" placeholder="E-mail">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -279,6 +281,7 @@
         $('body').on('click', '.showqr', function() {
             var formData = {};
             formData['id'] = $(this).data("id");
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/reservation/showQr',
                 type: 'POST',
@@ -287,10 +290,12 @@
                     if (data.status) {
                         $('#qrModal').modal('show');
                         $('.qr').html(data.html);
-                        console.log(data.html);
+                        $('.sendMail').attr("data-id", data.id);
+                        toastr.success(data.response);
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
@@ -303,6 +308,7 @@
         $('body').on('click', '.editReservation', function() {
             var formData = {};
             formData['id'] = $(this).data("id");
+            LoadingScreen(1);
             $.ajax({
                 url: '/admin/reservation/get',
                 type: 'POST',
@@ -313,15 +319,18 @@
                         $('#editModal input[name="Amount"]').val(data.reservation.Amount);
                         $('#editModal input[name="FirstName"]').val(data.reservation.FirstName);
                         $('#editModal input[name="LastName"]').val(data.reservation.LastName);
+                        $('#editModal input[name="email"]').val(data.reservation.email);
                         $('#editModal input[name="Pax"]').val(data.reservation.Pax);
                         $('#editModal textarea[name="ReservationNote"]').val(data.reservation
                             .ReservationNote);
                         $('#editModal input[name="TableNumber"]').val(data.reservation.TableNumber);
                         $('#editModal input[name="CheckInDate"]').val(data.reservation.CheckInDate);
                         $('#editModal input[name="id"]').val(data.reservation.id);
+                        toastr.success(data.response);
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
@@ -334,6 +343,7 @@
             event.preventDefault();
 
             var formData = $('.reservationEdit').find('input, textarea, select').serialize();
+            LoadingScreen(1);
 
             $.ajax({
                 url: '/admin/reservation/edit',
@@ -343,17 +353,42 @@
                     if (data.status) {
                         // $('#qrModal').modal('show');
                         // $('.qr').html(data.html);
-                        // console.log(data.html);
+                        toastr.success(data.response);
                         window.location.reload();
+                        LoadingScreen(0);
                     } else {
-                        console.log(data);
-                        // toastr.warning(lang['voucher_not_found']);
+                        toastr.warning(data.response);
+                        LoadingScreen(0);
                     }
                 }
             });
 
         });
         // düzenlemleri kaydet işlemi end
+
+
+        // mail gönderme start
+        $('body').on('click', '.sendMail', function() {
+            var formData = {};
+            formData['id'] = $(this).data("id");
+            LoadingScreen(1);
+            $.ajax({
+                url: '/admin/reservation/sendMail',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        LoadingScreen(0);
+                        toastr.success(data.response);
+                    } else {
+                        LoadingScreen(0);
+                        toastr.warning(data.response);
+                    }
+                }
+            });
+
+        });
+        // mail gönderme end
 
         //qr kod yazdırma start
         $('body').on('click', '.printQr', function() {
