@@ -20,27 +20,27 @@
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName"
-                                    placeholder="Ad">
+                                    placeholder="Ad" required>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-user" id="LastName" name="LastName"
-                                    placeholder="Soyad">
+                                    placeholder="Soyad" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" id="Amount" name="Amount"
-                                    placeholder="Tutar">
+                                <input type="number" class="form-control form-control-user" id="Amount" name="Amount"
+                                    placeholder="Tutar" required>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" id="Pax" name="Pax"
-                                    placeholder="Kişi Sayısı">
+                                <input type="number" class="form-control form-control-user" id="Pax" name="Pax"
+                                    placeholder="Kişi Sayısı" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-user" id="TableNumber"
-                                    name="TableNumber" placeholder="Masa Numarası">
+                                    name="TableNumber" placeholder="Masa Numarası" required>
                             </div>
                             <div class="col-sm-6">
                                 <input class="form-control form-control-user" id="CheckInDate" type="text"
@@ -154,6 +154,7 @@
                 type: 'POST',
                 data: formData,
                 success: function(data) {
+                    console.log(data);
                     if (data.status) {
                         $('#qrModal').modal('show');
                         $('.qr').html(data.html);
@@ -163,6 +164,15 @@
                     } else {
                         toastr.warning(data.response);
                     }
+                },
+                error: function(data) {
+                    switch (data.status) {
+                        case 422:
+                            for (const key in data.responseJSON.errors) {
+                                toastr.warning("Girdi alanlarını eksiksiz ve doğru doldurduğunuzdan emin olun!");
+                            }
+                    }
+                    LoadingScreen(0);
                 }
             });
 

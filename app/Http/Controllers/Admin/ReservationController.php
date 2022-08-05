@@ -14,6 +14,19 @@ class ReservationController extends Controller
 {
     public function new(Request $request)
     {
+        $request->validate([
+            'FirstName' => 'required',
+            'LastName' => 'required',
+            'TableNumber' => 'required',
+            'Amount' => 'required',
+            'Pax' => 'required',
+        ], [], [
+            'FirstName' => 'FirstName',
+            'LastName' => 'LastName',
+            'TableNumber' => 'TableNumber',
+            'Amount' => 'Amount',
+            'Pax' => 'Pax',
+        ]);
         $res = new Reservation();
         $res->FirstName = $request->FirstName;
         $res->LastName = $request->LastName;

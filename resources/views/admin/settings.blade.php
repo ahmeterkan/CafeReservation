@@ -106,6 +106,15 @@
                     } else {
                         toastr.warning(data.response);
                     }
+                },
+                error: function(data) {
+                    switch (data.status) {
+                        case 422:
+                            for (const key in data.responseJSON.errors) {
+                                toastr.warning("Girdi alanlarını eksiksiz ve doğru doldurduğunuzdan emin olun!");
+                            }
+                    }
+                    LoadingScreen(0);
                 }
             });
 

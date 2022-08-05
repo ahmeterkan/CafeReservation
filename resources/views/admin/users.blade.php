@@ -200,6 +200,15 @@
                         toastr.warning(data.response);
                         LoadingScreen(0);
                     }
+                },
+                error: function(data) {
+                    switch (data.status) {
+                        case 422:
+                            for (const key in data.responseJSON.errors) {
+                                toastr.warning("Girdi alanlarını eksiksiz ve doğru doldurduğunuzdan emin olun!");
+                            }
+                    }
+                    LoadingScreen(0);
                 }
             });
 
@@ -225,6 +234,15 @@
                         toastr.warning(data.response);
                         LoadingScreen(0);
                     }
+                },
+                error: function(data) {
+                    switch (data.status) {
+                        case 422:
+                            for (const key in data.responseJSON.errors) {
+                                toastr.warning("Girdi alanlarını eksiksiz ve doğru doldurduğunuzdan emin olun!");
+                            }
+                    }
+                    LoadingScreen(0);
                 }
             });
 

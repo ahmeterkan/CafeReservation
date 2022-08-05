@@ -19,7 +19,23 @@ class SettingsController extends Controller
     public function save(Request $request)
     {
         unset($request['_token']);
-
+        $request->validate([
+            'host' => 'required',
+            'port' => 'required',
+            'from_address' => 'required',
+            'from_name' => 'required',
+            'encryption' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+        ], [], [
+            'host' => 'FirstName',
+            'port' => 'LastName',
+            'from_address' => 'TableNumber',
+            'from_name' => 'Amount',
+            'encryption' => 'Pax',
+            'username' => 'Pax',
+            'password' => 'Pax',
+        ]);
         Mails::where("id", $request->id)->update($request->all());
 
         return response()->json([
