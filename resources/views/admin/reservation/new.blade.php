@@ -9,62 +9,61 @@
     Rezervasyon Oluşturma
 @endsection
 @section('content')
-    <div class="card o-hidden border-0 shadow-lg">
-        <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3">
-                    <div class="p-5">
-                        <form class="user reservation">
-                            @csrf
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="FirstName"
-                                        name="FirstName" placeholder="Ad">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="LastName"
-                                        name="LastName" placeholder="Soyad">
-                                </div>
+    <div class="" style="    text-align: -webkit-center;">
+
+        <div class="card o-hidden border-0 shadow-lg" style="max-width: 50%;">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="p-5">
+                    <form class="user reservation">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="FirstName" name="FirstName"
+                                    placeholder="Ad">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="Amount"
-                                        name="Amount" placeholder="Tutar">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="Pax"
-                                        name="Pax" placeholder="Kişi Sayısı">
-                                </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="LastName" name="LastName"
+                                    placeholder="Soyad">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="TableNumber"
-                                        name="TableNumber" placeholder="Masa Numarası">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input class="form-control form-control-user" id="CheckInDate" type="text"
-                                        name="CheckInDate" placeholder="Tarih" />
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="Amount" name="Amount"
+                                    placeholder="Tutar">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-12 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="email"
-                                        name="email" placeholder="E-mail">
-                                </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="Pax" name="Pax"
+                                    placeholder="Kişi Sayısı">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-12 mb-3 mb-sm-0">
-                                    <label for="ReservationNote">Rezervasyon Notu:</label>
-                                    <textarea type="textarea" class="form-control " id="ReservationNote" name="ReservationNote" rows="5">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="TableNumber"
+                                    name="TableNumber" placeholder="Masa Numarası">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control form-control-user" id="CheckInDate" type="text"
+                                    name="CheckInDate" placeholder="Tarih" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="email" name="email"
+                                    placeholder="E-mail">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <label for="ReservationNote">Rezervasyon Notu:</label>
+                                <textarea type="textarea" class="form-control " id="ReservationNote" name="ReservationNote" rows="5">
                                     </textarea>
-                                </div>
                             </div>
-                            <a href="#" class="btn btn-primary btn-user btn-block makeReservation">
-                                Rezervasyonu Oluştur
-                            </a>
-                        </form>
-                    </div>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-user btn-block makeReservation">
+                            Rezervasyonu Oluştur
+                        </a>
+                    </form>
                 </div>
             </div>
         </div>

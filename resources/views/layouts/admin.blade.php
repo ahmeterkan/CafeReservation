@@ -57,7 +57,6 @@
             left: 50%;
             font-size: 60pt;
         }
-
     </style>
     @yield('style')
 </head>
@@ -147,7 +146,8 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content"  style="background-image: url('/img/background.jpg'); background-repeat: no-repeat;background-size: cover;">
+            <div id="content"
+                style="background-image: url('/img/background.jpg'); background-repeat: no-repeat;background-size: cover;">
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -327,7 +327,7 @@
                                     Activity Log
                                 </a> --}}
                                 {{-- <div class="dropdown-divider"></div> --}}
-                                <a class="dropdown-item" href="/logout" >
+                                <a class="dropdown-item" href="/logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -346,8 +346,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">@yield('header')</h1>
                     </div>
-
-                    @yield('content')
+                        @yield('content')
 
                 </div>
                 <!-- /.container-fluid -->
